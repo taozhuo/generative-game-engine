@@ -8,14 +8,14 @@ WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Load the sprite sheet image
-sprite_sheet = pygame.image.load("spritesheet.png").convert_alpha()
+sprite_sheet = pygame.image.load("resources/leia-dancing-small.png").convert_alpha()
 
 # Define the size of each sprite (frame) in the sprite sheet
-sprite_width = 64
-sprite_height = 64
+sprite_width = 127.5
+sprite_height = 226
 
 # Define the number of rows and columns in the sprite sheet
-num_rows = 4
+num_rows = 1
 num_columns = 4
 
 # Extract individual sprites (frames) from the sprite sheet
@@ -44,14 +44,16 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Update animation
-    frame_time += clock.get_time()
-    if frame_time > 100:  # Change frame every 100 milliseconds
-        frame_time = 0
-        current_frame = (current_frame + 1) % len(sprites)
+    # Update animation if the SPACE key is being held down
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_SPACE]:
+        frame_time += clock.get_time()
+        if frame_time > 100:  # Change frame every 100 milliseconds
+            frame_time = 0
+            current_frame = (current_frame + 1) % len(sprites)
 
     # Render the current frame
-    screen.blit(sprites[current_frame], (WIDTH // 2, HEIGHT // 2))
+    screen.blit(sprites[current_frame], (WIDTH // 2 - sprite_width // 2, HEIGHT // 2 - sprite_height // 2))
 
     # Update display
     pygame.display.flip()
